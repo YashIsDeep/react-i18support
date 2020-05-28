@@ -22,5 +22,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-/src/assets/*.js
-/src/assets/*.json
+/src/assets/bundles/fbBundle.js
+/src/assets/bundles/audioBundle.js
+
+/src/extraCode.js

@@ -4,30 +4,33 @@ import './index.css';
 import App from './App';
 import i18next from 'i18next'
 import i18nextXHRBackend from 'i18next-xhr-backend';
-import lodash from 'lodash';
-import classnames from 'classnames';
-import moment from 'moment';
-import _merge from 'lodash/merge';
-import _sortBy from 'lodash/sortBy';
-import _keys from 'lodash/keys';
-window._merge=_merge;
-window._sortBy=_sortBy;
-window._keys=_keys;
 
 var $script = require('scriptjs');
-const PORT=8005;
-//var start=Date.now();
-window.React = React;
-window.classnames = classnames;
-window.lodash = lodash;
-window.reactDOM = ReactDOM;
-window.moment = moment;
+const PORT=9003;
+const hostUrl='http://localhost:'+PORT;
+var start=Date.now();
+
+function createElementFromString(str)
+{
+  const element=document.createElement('div');
+  element.innerHTML=str;
+  return element;
+}
+
+function initRender()
+{
+  ReactDOM.render(
+    <React.StrictMode>
+      <App></App>
+    </React.StrictMode>,
+    document.getElementById('root')
+  );
+}
 
 function func(){
   i18next
     .use(i18nextXHRBackend)
     .init({
-      lng: 'en',
       fallbackLng: 'en',
       debug: false,
       ns: ['common'],
@@ -35,34 +38,38 @@ function func(){
       backend: {
         // load from i18next-gitbook repo
         // Setup server in src/assets with python -m SimpleHTTPServer 8000
-        loadPath: 'http://localhost:'+PORT+'/{{lng}}.json',
+        loadPath: hostUrl+'/locales/{{lng}}.json',
         crossDomain: true
       }
     }, function(err, t){
     })
     .then(()=>{
-      //var end=Date.now();
-      //console.log('i18nNext took '+(end-start)+' ms.');
-      i18next.changeLanguage("en");
-      global.i18next=i18next;
-      let promise= new Promise(function(resolve,reject){
-        $script("http://localhost:"+PORT+"/bundle3.js",() => {
-          // var tools=require('tempBundle.js');
-          // console.log(tools);
-          console.log(window);
-          //let tmp=getInspectedProps(window.MySpxComponent.propTypes,window.MySpxComponent.propSettings);
-          //console.log("tmp:",tmp);
-          resolve(window.MySpxComponent);
-        });
-      });
-  	  promise.then(result => {
-        console.log(result);
-        ReactDOM.render(
-          <React.StrictMode>
-            <App />
-          </React.StrictMode>,
-          document.getElementById('root')
-        );
+      var end=Date.now();
+      console.log('i18nNext took '+(end-start)+' ms.');
+      window.i18next=i18next;
+      initRender();
+      var isRendered=false;
+      var render;
+      //Initial render done
+
+      const btn = document.getElementById('publisher');
+      btn.addEventListener('click',function(){
+        var selectedLanguagePreference=document.querySelector('input[name="lang"]:checked').value;
+        var selectedBundlePreference=document.querySelector('input[name="bundleOption"]:checked').value;
+        var start=Date.now();
+        if(isRendered) document.getElementById('content').removeChild(render);
+        i18next.changeLanguage(selectedLanguagePreference)
+          .then(()=>{
+            var mid=Date.now();
+            $script(hostUrl+'/bundles/bundle'+selectedBundlePreference+'.js', () => {
+              var end=Date.now();
+              console.log("Update took "+(mid-start)+" ms to change language and "+(end-mid)+" ms to load bundle.");
+              var component=window.loadComponent();
+              render=createElementFromString(component);
+              document.getElementById('content').appendChild(render);
+              isRendered=true;
+            })
+          });
       });
     });
 }

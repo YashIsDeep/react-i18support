@@ -1,4 +1,4 @@
 window.loadComponent=
 function getString(){
-	return i18next.t("Smart")+" "+i18next.t("Marketing")+", "+i18next.t("Care")+", "+i18next.t("Engagement")+", "+i18next.t("Advertising")+", "+i18next.t("Research")
+	return window.translator.parseText("Smart")+" "+window.translator.parseText("Marketing")+", "+window.translator.parseText("Care")+", "+window.translator.parseText("Engagement")+", "+window.translator.parseText("Advertising")+", "+window.translator.parseText("Research")
 }

@@ -1,4 +1,4 @@
 window.loadComponent=
 function getString(){
-	return i18next.t("Audio")+" and "+i18next.t("Text");
+	return window.translator.parseText("Audio")+" and "+window.translator.parseText("Text");
 }

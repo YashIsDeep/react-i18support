@@ -1,4 +1,4 @@
 window.loadComponent=
 function getString(){
-	return i18next.t("Hello")
+	return window.translator.parseText("Hello")
 }

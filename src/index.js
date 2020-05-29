@@ -27,6 +27,8 @@ function initRender()
   );
 }
 
+var funBuffer={};
+
 function func(){
   i18next
     .use(i18nextXHRBackend)
@@ -64,6 +66,8 @@ function func(){
             $script(hostUrl+'/bundles/bundle'+selectedBundlePreference+'.js', () => {
               var end=Date.now();
               console.log("Update took "+(mid-start)+" ms to change language and "+(end-mid)+" ms to load bundle.");
+              if(funBuffer[selectedBundlePreference]===undefined)funBuffer[selectedBundlePreference]=window.loadComponent;
+              else window.loadComponent=funBuffer[selectedBundlePreference];
               var component=window.loadComponent();
               render=createElementFromString(component);
               document.getElementById('content').appendChild(render);

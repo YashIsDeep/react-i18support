@@ -10,7 +10,7 @@ const hostUrl='http://localhost:'+PORT;
 var start=Date.now();
 
 var _translator = new Translator();
-window.translator=_translator;
+window.__=_translator.parseText.bind(_translator);
 
 function createElementFromString(str)
 {
@@ -28,6 +28,7 @@ function initRender()
     document.getElementById('root')
   );
 }
+console.log(window.__("Photo"));
 
 function func()
 {
@@ -43,7 +44,7 @@ function func()
     var selectedBundlePreference=document.querySelector('input[name="bundleOption"]:checked').value;
     var start=Date.now();
     if(isRendered) document.getElementById('content').removeChild(render);
-    window.translator.setLanguage(selectedLanguagePreference)
+    _translator.setLanguage(selectedLanguagePreference)
       .then(()=>{
         var mid=Date.now();
         $script(hostUrl+'/bundles/bundle'+selectedBundlePreference+'.js', () => {

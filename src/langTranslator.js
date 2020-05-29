@@ -20,8 +20,8 @@ class Translator
 		let filename=this.currentLanguage+".js";
 		console.log("Fetching "+filename);
 		return new Promise(function(resolve,reject){
-			$script(hostUrl+'/locales/'+filename, () => {
-				window.translator.setJSONfunction();
+			$script(hostUrl+'/locales/'+filename, () => { // FETCH 
+				setJSONfunction();
 				resolve();
 			});
 		});
@@ -35,3 +35,6 @@ class Translator
 			return this.JSON[text];
 	}
 }
+// .json
+// __ in bundles
+// time-comparison

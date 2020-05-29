@@ -1,4 +1,4 @@
-window.translator.setJSONfunction=
+var setJSONfunction=
 function setJSONObject(){
 	window.translator.JSON={
 		"AudioPreview ":"en.AudioPreview ",

@@ -29,6 +29,24 @@ function initRender()
   );
 }
 
+function timeLogger()
+{
+  console.log("START");
+  var maxCount=10;
+  var count,i;
+  var N=400;
+  for(count=1;count<=maxCount;count++)
+  {
+    var text;
+    console.time("");
+    for (i = 0; i < N; i++) { 
+      text=window.__("Photo");
+    }
+    console.timeEnd("");
+  }   
+  console.log("END")
+}
+
 var bundleBuffer={};
 function func()
 {
@@ -64,26 +82,4 @@ function func()
 
 func();
 _translator.setLanguage("lg")
-  .then(()=>{
-    console.log("START");
-    var maxCount=10;
-    var count,i;
-    var N=400;
-    for(count=1;count<=maxCount;count++)
-    {
-      var sample={};
-      for (i = 0; i < N; i++) { 
-        const keys = Object.keys(_translator.JSON);
-        const randIndex = Math.floor(Math.random() * keys.length)
-        const randKey = keys[randIndex]
-        sample[i]=randKey;
-      }
-      var text;
-      console.time("");
-      for (i = 0; i < N; i++) { 
-        text=window.__(sample[i]);
-      }
-      console.timeEnd("");
-    }   
-    console.log("END")
-  });
+  .then(()=>timeLogger());

@@ -28,11 +28,12 @@ function initRender()
 }
 
 var funBuffer={};
-
-function func(){
+let userLang='en'
+function init(){
   i18next
     .use(i18nextXHRBackend)
     .init({
+      lng:userLang,
       fallbackLng: 'en',
       debug: false,
       ns: ['common'],
@@ -78,4 +79,4 @@ function func(){
     });
 }
 
-func();
+init();

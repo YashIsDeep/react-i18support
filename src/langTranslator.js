@@ -18,8 +18,13 @@ class Translator
 		if(this.currentLanguage===newLanguage)
 			return new Promise((resolve,reject) => resolve());
 		this.currentLanguage=newLanguage;
+		if(newLanguage==="")
+		{
+			this.JSON={};
+			return new Promise((resolve,reject) => resolve());
+		}
+
 		let filename=this.currentLanguage+".json";
-		console.log("Fetching "+filename);
 		const setJsonFunction=function(json){
 			this.JSON=json;
 		}.bind(this);

@@ -1,4 +1,4 @@
-window.loadComponent=
+var loadComponent=
 function getString(){
-	return window.translator.parseText("Smart")+" "+window.translator.parseText("Marketing")+", "+window.translator.parseText("Care")+", "+window.translator.parseText("Engagement")+", "+window.translator.parseText("Advertising")+", "+window.translator.parseText("Research")
+	return __("Smart")+" "+__("Marketing")+", "+__("Care")+", "+__("Engagement")+", "+__("Advertising")+", "+__("Research")
 }

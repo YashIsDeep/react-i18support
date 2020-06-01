@@ -1,4 +1,4 @@
-window.loadComponent=
+var loadComponent=
 function getString(){
-	return window.translator.parseText("Past")+", "+window.translator.parseText("Present")+" and "+window.translator.parseText("Future")
+	return __("Past")+", "+__("Present")+" and "+__("Future")
 }

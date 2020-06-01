@@ -1,4 +1,4 @@
-window.loadComponent=
+var loadComponent=
 function getString(){
-	return window.translator.parseText("Hello")
+	return __("Hello")
 }

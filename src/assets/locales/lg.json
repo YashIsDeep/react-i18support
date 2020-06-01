@@ -1,6 +1,4 @@
-window.translator.setJSONfunction=
-function setJSONObject(){
-	window.translator.JSON={
+{
 	"AudioPreview ":"lg.AudioPreview ",
 	"Hello":"lg.Hello",
 	"Photo":"lg.Photo",
@@ -10020,5 +10018,4 @@ function setJSONObject(){
 	"dsujh":"lg.dsujh",
 	"ooagi":"lg.ooagi",
 	"ldclz":"lg.ldclz"
-}
 }

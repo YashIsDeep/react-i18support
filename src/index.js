@@ -10,7 +10,7 @@ const hostUrl='http://localhost:'+PORT;
 var start=Date.now();
 
 var _translator = new Translator();
-window.__=_translator.parseText.bind(_translator);
+window.__=_translator.getParseTextFunction();
 
 function createElementFromString(str)
 {
@@ -28,8 +28,8 @@ function initRender()
     document.getElementById('root')
   );
 }
-console.log(window.__("Photo"));
 
+var bundleBuffer={};
 function func()
 {
   var end=Date.now();
@@ -50,7 +50,10 @@ function func()
         $script(hostUrl+'/bundles/bundle'+selectedBundlePreference+'.js', () => {
           var end=Date.now();
           console.log("Update took "+(mid-start)+" ms to change language and "+(end-mid)+" ms to load bundle.");
-          var component=window.loadComponent();
+          if(bundleBuffer[selectedBundlePreference]===undefined)
+            bundleBuffer[selectedBundlePreference]=window.loadComponent;
+          var loader=bundleBuffer[selectedBundlePreference];
+          var component=loader();
           render=createElementFromString(component);
           document.getElementById('content').appendChild(render);
           isRendered=true;

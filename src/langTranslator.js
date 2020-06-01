@@ -6,35 +6,37 @@ class Translator
 {
 	constructor()
 	{
-		this.currentLanguage="en";
+		this.currentLanguage="";
 		this.JSON={};
-		this.setJSONfunction=()=>{};
 	}
 	getLanguage()
 	{
 		return this.currentLanguage;
 	}
-	setLanguage(str)
+	setLanguage(newLanguage)
 	{
-		this.currentLanguage=str;
-		let filename=this.currentLanguage+".js";
+		if(this.currentLanguage===newLanguage)
+			return new Promise((resolve,reject) => resolve());
+		this.currentLanguage=newLanguage;
+		let filename=this.currentLanguage+".json";
 		console.log("Fetching "+filename);
+		const setJsonFunction=function(json){
+			this.JSON=json;
+		}.bind(this);
 		return new Promise(function(resolve,reject){
-			$script(hostUrl+'/locales/'+filename, () => { // FETCH 
-				setJSONfunction();
-				resolve();
-			});
+			fetch(hostUrl+'/locales/'+filename)
+			.then( response => response.json())
+			.then(setJsonFunction)
+			.then(()=> resolve());
 		});
 	}
-	//_translator.parseText("string");
-	parseText(text) // Case sensitive
+	getParseTextFunction()
 	{
-		if(this.JSON[text]===undefined)
-			return text;
-		else
-			return this.JSON[text];
+		return function(text){
+			if(this.JSON[text]===undefined)
+				return text;
+			else
+				return this.JSON[text];
+		}.bind(this);
 	}
 }
-// .json
-// __ in bundles
-// time-comparison

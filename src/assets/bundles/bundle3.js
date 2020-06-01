@@ -1,4 +1,4 @@
-window.loadComponent=
+var loadComponent=
 function getString(){
-	return window.translator.parseText("Audio")+" and "+window.translator.parseText("Text");
+	return __("Audio")+" and "+__("Text");
 }

@@ -73,8 +73,8 @@ function init(){
       var render;
       //Initial render done
 
-      i18next.changeLanguage("lg")
-        .then(()=>timeLogger());
+      i18next.changeLanguage("lg").then(()=>timeLogger());//debug
+
       const btn = document.getElementById('publisher');
       btn.addEventListener('click',function(){
         var selectedLanguagePreference=document.querySelector('input[name="lang"]:checked').value;

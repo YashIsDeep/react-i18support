@@ -27,6 +27,24 @@ function initRender()
   );
 }
 
+function timeLogger()
+{
+  console.log("START");
+  var maxCount=10;
+  var count,i;
+  var N=400;
+  for(count=1;count<=maxCount;count++)
+  {
+    var text;
+    console.time("");
+    for (i = 0; i < N; i++) { 
+      text=i18next.t("Photo");
+    }
+    console.timeEnd("");
+  }   
+  console.log("END")
+}
+
 var funBuffer={};
 let userLang='en'
 function init(){
@@ -56,22 +74,7 @@ function init(){
       //Initial render done
 
       i18next.changeLanguage("lg")
-        .then(()=>{
-        //   console.log("START");
-        //   var maxCount=10;
-        //   var count,i;
-        //   var N=400;
-        //   for(count=1;count<=maxCount;count++)
-        //   {
-        //     var text;
-        //     console.time("");
-        //     for (i = 0; i < N; i++) { 
-        //       text=i18next.t("Photo");
-        //     }
-        //     console.timeEnd("");
-        //   }   
-        //   console.log("END")
-        // });
+        .then(()=>timeLogger());
       const btn = document.getElementById('publisher');
       btn.addEventListener('click',function(){
         var selectedLanguagePreference=document.querySelector('input[name="lang"]:checked').value;

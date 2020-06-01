@@ -10,7 +10,7 @@ const hostUrl='http://localhost:'+PORT;
 var start=Date.now();
 
 var _translator = new Translator();
-window.__=_translator.getParseTextFunction();
+window.__=_translator.getTranslateFunction();
 
 function createElementFromString(str)
 {

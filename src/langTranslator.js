@@ -35,7 +35,7 @@ class Translator
 			.then(()=> resolve());
 		});
 	}
-	getParseTextFunction()
+	getTranslateFunction()
 	{
 		return function(text){
 			if(this.JSON[text]===undefined)

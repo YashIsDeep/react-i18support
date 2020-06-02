@@ -58,7 +58,7 @@ function init(){
       defaultNS: 'common',
       backend: {
         // load from i18next-gitbook repo
-        // Setup server in src/assets with python -m SimpleHTTPServer 8000
+        // Setup server in src/assets with python server.py
         loadPath: hostUrl+'/locales/{{lng}}.json',
         crossDomain: true
       }

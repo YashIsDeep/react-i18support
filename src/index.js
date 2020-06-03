@@ -83,7 +83,7 @@ function loadPage()
   });
 }
 
-function setupLanguage(userLang){
+function setupLanguageLibrary(userLang){
   return i18next
     .use(i18nextXHRBackend)
     .init({
@@ -106,4 +106,4 @@ function setupLanguage(userLang){
 
 
 let userLanguage='en'
-setupLanguage(userLanguage).then(loadPage);
+setupLanguageLibrary(userLanguage).then(loadPage);

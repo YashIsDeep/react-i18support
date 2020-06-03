@@ -53,17 +53,14 @@ function init(){
     .init({
       lng:userLang,
       fallbackLng: 'en',
-      debug: false,
-      ns: ['common'],
-      defaultNS: 'common',
       backend: {
-        // load from i18next-gitbook repo
         // Setup server in src/assets with python server.py
         loadPath: hostUrl+'/locales/{{lng}}.json',
         crossDomain: true
       }
     }, function(err, t){
     })
+    .then(()=>window.__=i18next.getFixedT())
     .then(()=>{
       var end=Date.now();
       console.log('i18nNext took '+(end-start)+' ms.');

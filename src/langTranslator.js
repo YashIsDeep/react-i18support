@@ -1,7 +1,6 @@
-var $script = require('scriptjs');
 const PORT=9003;
 const hostUrl='http://localhost:'+PORT;
-module.exports= 
+
 class Translator
 {
 	constructor()
@@ -45,3 +44,5 @@ class Translator
 		}.bind(this);
 	}
 }
+
+export default new Translator();

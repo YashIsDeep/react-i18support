@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import _translator from './langTranslator.js';
+import Translator from './langTranslator.js';
 
 var $script = require('scriptjs');
 const PORT=9003;
@@ -36,8 +36,6 @@ function timeLogger()
 
 function initRender()
 {
-  var isRendered=false;
-  var render;
   ReactDOM.render(
     <React.StrictMode>
       <App></App>
@@ -49,9 +47,9 @@ function initRender()
 
 function setupLanguage(userLang)
 { 
-  window.__=_translator.getTranslateFunction();
-  window.changeLanguage=_translator.setLanguage.bind(_translator);
-  return _translator.setLanguage(userLang);
+  window.__=Translator.getTranslateFunction();
+  window.changeLanguage=Translator.setLanguage.bind(Translator);
+  return Translator.setLanguage(userLang);
 }
 
 function loadPage()
@@ -59,6 +57,8 @@ function loadPage()
   var end=Date.now();
   console.log("Initial setup time: "+(end-start)+ " ms.");
   initRender();
+  var isRendered=false;
+  var render;
   //Initial render done
 
   window.changeLanguage("lg").then(timeLogger);
@@ -68,8 +68,9 @@ function loadPage()
   btn.addEventListener('click',function(){
     var selectedLanguagePreference=document.querySelector('input[name="lang"]:checked').value;
     var selectedBundlePreference=document.querySelector('input[name="bundleOption"]:checked').value;
-    var start=Date.now();
     if(isRendered) document.getElementById('content').removeChild(render);
+
+    var start=Date.now();
     window.changeLanguage(selectedLanguagePreference)
       .then(()=>{
         var mid=Date.now();

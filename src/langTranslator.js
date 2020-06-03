@@ -1,7 +1,7 @@
 const PORT=9003;
 const hostUrl='http://localhost:'+PORT;
 
-class Translator
+class TranslatorClass
 {
 	constructor()
 	{
@@ -45,4 +45,4 @@ class Translator
 	}
 }
 
-export default new Translator();
+export default new TranslatorClass();

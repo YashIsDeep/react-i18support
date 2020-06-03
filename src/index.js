@@ -55,7 +55,7 @@ function loadPage()
   //Initial render done
 
   //Time logging function
-  i18next.changeLanguage("lg").then(timeLogger);
+  window.changeLanguage("lg").then(timeLogger);
 
   var funBuffer={};
   const btn = document.getElementById('publisher');
@@ -64,7 +64,7 @@ function loadPage()
     var selectedBundlePreference=document.querySelector('input[name="bundleOption"]:checked').value;
     var start=Date.now();
     if(isRendered) document.getElementById('content').removeChild(render);
-    i18next.changeLanguage(selectedLanguagePreference)
+    window.changeLanguage(selectedLanguagePreference)
       .then(()=>{
         var mid=Date.now();
         $script(hostUrl+'/bundles/bundle'+selectedBundlePreference+'.js', () => {
@@ -96,7 +96,10 @@ function setupLanguage(userLang){
       }
     }, function(err, t){
     })
-    .then(()=>window.__=i18next.getFixedT()); 
+    .then(()=>{
+      window.__=i18next.getFixedT()
+      window.changeLanguage=i18next.changeLanguage.bind(i18next);
+    }); 
 }
 
 

@@ -14,8 +14,8 @@ len=5
 print("{");
 for i in range(N-1):
 	randString=gen(len);
-	print("\t\""+randString+"\":\"lg."+randString+"\",")
+	print("\t"+randString+":\"lg."+randString+"\",")
 
 randString=gen(len);
-print("\t\""+randString+"\":\"lg."+randString+"\"")
+print("\t"+randString+":\"lg."+randString+"\"")
 print("}")

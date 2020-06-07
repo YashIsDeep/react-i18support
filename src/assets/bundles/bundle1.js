@@ -1,4 +1,4 @@
 var loadComponent=
 function getString(){
-	return __("Photo")+" and "+__("Video");
+	return __("PhotoKey")+" and "+__("Video");
 }

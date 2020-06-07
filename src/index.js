@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import i18next from 'i18next'
-import i18nextXHRBackend from 'i18next-xhr-backend';
+import {createIntl, createIntlCache, RawIntlProvider,FormattedMessage} from 'react-intl';
 
 var $script = require('scriptjs');
 const PORT=9003;
@@ -19,7 +18,7 @@ function createElementFromString(str)
 
 function timeLogger()
 {
-  console.log("START");
+  console.log("START",window.intl.locale,window.__("PhotoKey"));
   var maxCount=10;
   var count,i;
   var N=400;
@@ -28,7 +27,7 @@ function timeLogger()
     var text;
     console.time("");
     for (i = 0; i < N; i++) { 
-      text=i18next.t("Photo");
+      text=window.__("PhotoKey");
     }
     console.timeEnd("");
   }   
@@ -38,17 +37,21 @@ function timeLogger()
 function initRender()
 {
   ReactDOM.render(
-    <React.StrictMode>
-      <App></App>
-    </React.StrictMode>,
-    document.getElementById('root')
+    <RawIntlProvider value={window.intl}>
+      <FormattedMessage id="Welcome" values={{name:"Stranger"}} />
+      <br />
+      <React.StrictMode>
+        <App></App>
+      </React.StrictMode>
+    </RawIntlProvider>,
+      document.getElementById('root')
   );
 }
 
 function loadPage()
 {
   var end=Date.now();
-  console.log('i18nNext took '+(end-start)+' ms.');
+  console.log('react-intl took '+(end-start)+' ms.');
   initRender();
   var isRendered=false;
   var render;
@@ -83,27 +86,45 @@ function loadPage()
   });
 }
 
+// intl.formatMessage
+
 function setupLanguageLibrary(userLang){
-  return i18next
-    .use(i18nextXHRBackend)
-    .init({
-      lng:userLang,
-      fallbackLng: 'en',
-      backend: {
-        // Setup server in src/assets with python server.py
-        loadPath: hostUrl+'/locales/{{lng}}.json',
-        crossDomain: true
-      }
-    }, function(err, t){
-    })
-    .then(()=>{
-      window.__=i18next.getFixedT()
-      window.changeLanguage=i18next.changeLanguage.bind(i18next);
-    }); 
+  const cache=createIntlCache();
+  window.__=function(str){
+    //console.log("Format request for "+str)
+    return window.intl.formatMessage({id:str});
+  }
+  window.changeLanguage=function(newLocale){
+    return new Promise( function(resolve,reject){
+      import(  /* webpackMode: "lazy" */ './assets/locales/'+newLocale+'.js')
+        .then(messages=>{
+          //console.log(newLocale);
+          //console.log(messages.default);
+          var intl = createIntl(
+            {locale: newLocale, messages: messages.default},
+            cache
+          );
+          window.intl=intl;
+          resolve();
+        });
+    });
+  };
+  return new Promise( function(resolve,reject){
+    import(  /* webpackMode: "lazy" */ './assets/locales/'+userLang+'.js')
+      .then(messages=>{
+        console.log(messages.default);
+        var intl = createIntl({
+          locale: userLang, messages: messages.default},
+          cache
+        );
+        window.intl=intl;
+        resolve();
+      });
+  });
 }
 
 
 
 
-let userLanguage='en'
+let userLanguage='jp'
 setupLanguageLibrary(userLanguage).then(loadPage);

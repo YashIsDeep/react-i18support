@@ -28,7 +28,7 @@ function timeLogger()
     var text;
     console.time("");
     for (i = 0; i < N; i++) { 
-      text=i18next.t("Photo");
+      text=window.__("Photo");
     }
     console.timeEnd("");
   }   
@@ -89,6 +89,9 @@ function setupLanguageLibrary(userLang){
     .init({
       lng:userLang,
       fallbackLng: 'en',
+      keySeperator: false,
+      skipInterpolation: true,
+      simplifyPluralSuffix: false,
       backend: {
         // Setup server in src/assets with python server.py
         loadPath: hostUrl+'/locales/{{lng}}.json',

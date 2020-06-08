@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import i18next from 'i18next'
 import i18nextXHRBackend from 'i18next-xhr-backend';
+import { initReactI18next } from 'react-i18next';
+import { useTranslation,withTranslation,Translation,Trans } from 'react-i18next';
 
 var $script = require('scriptjs');
 const PORT=9003;
@@ -86,6 +88,7 @@ function loadPage()
 function setupLanguageLibrary(userLang){
   return i18next
     .use(i18nextXHRBackend)
+    .use(initReactI18next)
     .init({
       lng:userLang,
       fallbackLng: 'en',

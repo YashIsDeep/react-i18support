@@ -128,3 +128,7 @@ function setupLanguageLibrary(userLang){
 
 let userLanguage='jp'
 setupLanguageLibrary(userLanguage).then(loadPage);
+
+
+// Number formatting. 
+// D

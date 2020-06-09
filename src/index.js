@@ -4,8 +4,8 @@ import './index.css';
 import App from './App';
 import i18next from 'i18next'
 import i18nextXHRBackend from 'i18next-xhr-backend';
-import { initReactI18next } from 'react-i18next';
-import { useTranslation,withTranslation,Translation,Trans } from 'react-i18next';
+//import { initReactI18next } from 'react-i18next';
+//import { useTranslation,withTranslation,Translation,Trans } from 'react-i18next';
 
 var $script = require('scriptjs');
 const PORT=9003;
@@ -30,11 +30,11 @@ function timeLogger()
     var text;
     console.time("");
     for (i = 0; i < N; i++) { 
-      text=i18next.t("Photo");
+      text=window.__("Photo");
     }
     console.timeEnd("");
   }   
-  console.log("END")
+  console.log("END",text)
 }
 
 function initRender()
@@ -88,15 +88,18 @@ function loadPage()
 function setupLanguageLibrary(userLang){
   return i18next
     .use(i18nextXHRBackend)
-    .use(initReactI18next)
+    //.use(initReactI18next)
     .init({
       lng:userLang,
-      fallbackLng: 'en',
+      fallbackLng: false,
+      keySeparator: false,
+      nsSeparator: false,
       backend: {
         // Setup server in src/assets with python server.py
         loadPath: hostUrl+'/locales/{{lng}}.json',
         crossDomain: true
-      }
+      },
+      skipInterpolation: true
     }, function(err, t){
     })
     .then(()=>{

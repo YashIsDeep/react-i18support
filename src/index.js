@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import i18next from 'i18next'
-import i18nextXHRBackend from 'i18next-xhr-backend';
+import HttpBackend from 'i18next-http-backend';
 
 var $script = require('scriptjs');
 const PORT=9003;
@@ -32,7 +32,7 @@ function timeLogger()
     }
     console.timeEnd("");
   }   
-  console.log("END")
+  console.log("END",text)
 }
 
 function initRender()
@@ -55,7 +55,7 @@ function loadPage()
   //Initial render done
 
   //Time logging function
-  window.changeLanguage("lg").then(timeLogger);
+  //window.changeLanguage("lg").then(timeLogger);
 
   var funBuffer={};
   const btn = document.getElementById('publisher');
@@ -85,16 +85,20 @@ function loadPage()
 
 function setupLanguageLibrary(userLang){
   return i18next
-    .use(i18nextXHRBackend)
+    .use(HttpBackend)
     .init({
       lng:userLang,
-      fallbackLng: 'en',
+      fallbackLng: false,
+      keySeparator: false,
+      nsSeparator: false,
       keySeperator: false,
       skipInterpolation: true,
       simplifyPluralSuffix: false,
+      ns: ["main"],
+      defaultNS: "main",
       backend: {
         // Setup server in src/assets with python server.py
-        loadPath: hostUrl+'/locales/{{lng}}.json',
+        loadPath: hostUrl+'/locales/{{lng}}/{{ns}}.json',
         crossDomain: true
       }
     }, function(err, t){
@@ -102,6 +106,7 @@ function setupLanguageLibrary(userLang){
     .then(()=>{
       window.__=i18next.getFixedT()
       window.changeLanguage=i18next.changeLanguage.bind(i18next);
+      window.__language=userLang;
     }); 
 }
 
@@ -109,4 +114,27 @@ function setupLanguageLibrary(userLang){
 
 
 let userLanguage='en'
-setupLanguageLibrary(userLanguage).then(loadPage);
+setupLanguageLibrary(userLanguage)
+  .then(loadPage)
+  .then(()=>{
+    loadNamespaceToMain("side")
+  });
+
+
+function loadNamespaceFromBackend(ns)
+{
+  if(!i18next.hasResourceBundle(window.__language,ns))
+  { 
+    let promise=i18next.loadNamespaces(ns);
+    return promise;
+  }
+  else
+    return new Promise((resolve,reject)=> resolve());
+}
+function loadNamespaceToMain(ns)
+{
+  return loadNamespaceFromBackend(ns).then(()=>{
+      let resources=i18next.getResourceBundle(window.__language,ns);
+      i18next.addResourceBundle(window.__language,"main",resources,true,false);
+    });
+}

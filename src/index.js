@@ -91,7 +91,6 @@ function setupLanguageLibrary(userLang){
       fallbackLng: false,
       keySeparator: false,
       nsSeparator: false,
-      keySeperator: false,
       skipInterpolation: true,
       simplifyPluralSuffix: false,
       ns: ["main"],
@@ -117,6 +116,7 @@ let userLanguage='en'
 setupLanguageLibrary(userLanguage)
   .then(loadPage)
   .then(()=>{
+    //console.log("Before Loading",i18next.getResourceBundle(window.__language,"main"))
     loadNamespaceToMain("side")
   });
 

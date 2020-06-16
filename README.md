@@ -9,60 +9,30 @@ In the project directory, you can run:
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
 
-### `npm test`
+## Utilities 
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Run a python server on localhost using the server.py file in ./src/assets
 
-### `npm run build`
+### `python server.py`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+If you already have a remote server hosted, you can save it's URL in the 'hostUrl' and 'Port' vairables to achieve the same functionality. 
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### How to mark the strings to be translated
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The '\_\_' function must be wrapped around the strings that need to be translated.
 
-### `npm run eject`
+## INTEGRATION into your code
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+To incorporate into your code, first install the dependencies via:
+### `npm i i18next i18next-http-backend --save`
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Now, import the two libraries 'i18next' and 'i18next-http-backend'.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Use the setupLanguageLibrary(userLanguage) function to get a promise which resolves when the initial batch of translations gets loaded. When the promise resolves, you can load the components where the '\_\_' function has to be executed. The configuration options currently are configured for vanilla translation code but may be modfied as needed. 
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Extra functionality for namespacing
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+If you wish to seperate out your translations into multiple JSON files, you might want to use the functionality of loadNamespaceToMain. This function appends the translations of the required namespace into the main bundle. 
+## NOTE: ## 
+### This is not the only way. The other way to use namespacing would be to not append the translations to the main file but to either use the namespaceSeperator or switch the default namespaces.

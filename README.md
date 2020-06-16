@@ -22,7 +22,7 @@ If you already have a remote server hosted, you can save it's URL in the 'hostUr
 
 The '\_\_' function must be wrapped around the strings that need to be translated.
 
-## INTEGRATION into your code
+## Integration into your code
 
 To incorporate into your code, first install the dependencies via:
 ### `npm i i18next i18next-http-backend --save`
@@ -35,4 +35,4 @@ Use the setupLanguageLibrary(userLanguage) function to get a promise which resol
 
 If you wish to seperate out your translations into multiple JSON files, you might want to use the functionality of loadNamespaceToMain. This function appends the translations of the required namespace into the main bundle. 
 ## NOTE: ## 
-### This is not the only way. The other way to use namespacing would be to not append the translations to the main file but to either use the namespaceSeperator or switch the default namespaces.
+This is not the only way. The other way to use namespacing would be to not append the translations to the main file but to either use the namespaceSeperator or switch the default namespaces.

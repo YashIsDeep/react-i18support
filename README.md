@@ -34,5 +34,5 @@ Use the setupLanguageLibrary(userLanguage) function to get a promise which resol
 ## Extra functionality for namespacing
 
 If you wish to seperate out your translations into multiple JSON files, you might want to use the functionality of loadNamespaceToMain. This function appends the translations of the required namespace into the main bundle. 
-## NOTE: ## 
+### NOTE: 
 This is not the only way. The other way to use namespacing would be to not append the translations to the main file but to either use the namespaceSeperator or switch the default namespaces.
